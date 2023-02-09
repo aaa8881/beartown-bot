@@ -32,7 +32,7 @@ class Event(commands.Cog):
             if custom_id == 'create-ticket':
                 return await ServerButton(self.bot).create_button(interaction)
             elif custom_id == 'close':
-                return await CloseTicket().close(interaction=interaction)
+                return await close(interaction=interaction)
             elif custom_id == 'delete':
                 return await interaction.channel.delete()
             elif custom_id == 'participate':
