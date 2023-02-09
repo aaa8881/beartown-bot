@@ -10,6 +10,9 @@ class Event(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def status_loop(self):
+        """
+        Update member count every 10 minutes
+        """
         await self.bot.wait_until_ready()
         channel = self.bot.get_channel(1061614195063394374)
         try:
@@ -19,6 +22,11 @@ class Event(commands.Cog):
 
     @commands.Cog.listener()
     async def on_interaction(self, interaction):
+        """
+        Interaction call event handler
+        :param interaction: Default param for getting the interaction. Nothing to do for this param
+        :return
+        """
         try:
             custom_id = interaction.data['custom_id']
             if custom_id == 'create-ticket':

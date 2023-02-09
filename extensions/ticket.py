@@ -1,3 +1,4 @@
+import sqlite3
 import discord
 from discord.ext import commands
 from modules import ServerButton
@@ -9,6 +10,12 @@ class Ticket(commands.Cog):
 
     @commands.command(name='ticket')
     async def ticket_create(self, ctx, channel: discord.TextChannel):
+        """
+        Send create-ticket message
+        :param ctx: Default param for getting the information of the caller. Nothing to do for this param
+        :param channel: mention a channel to send a create-ticket message
+        :return:
+        """
         if not ctx.author.guild_permissions.view_audit_log:
             return await ctx.respond("권한이 없습니다.", ephemeral=True)
 
@@ -19,6 +26,23 @@ class Ticket(commands.Cog):
         embed.set_footer(text="베어타운", icon_url=self.bot.user.avatar.url)
         await channel.send(embed=embed, view=ServerButton(self.bot))
         return await ctx.reply(f"생성이 완료되었습니다. {channel.mention}")
+
+    @commands.command(name='clear')
+    async def clear_db(self, ctx):
+        """
+        Delete data from database for those who cannot create a ticket
+        :param ctx: Default param for getting the information of the caller. Nothing to do for this param
+        :return:
+        """
+        if not ctx.author.guild_permissions.view_audit_log:
+            return await ctx.respond("권한이 없습니다.", ephemeral=True)
+
+        conn = sqlite3.connect('data/tickets.db')
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM opened')
+        conn.commit()
+        conn.close()
+        return await ctx.respond("완료", ephemeral=True)
 
 
 def setup(bot):

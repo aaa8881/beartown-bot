@@ -19,6 +19,11 @@ class Join(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        """
+        Member join event handler
+        :param member: Default param for getting the joined member. Nothing to do for this param
+        :return
+        """
         if member.guild.id != 860930425811894313:
             return None
 
@@ -36,6 +41,12 @@ class Join(commands.Cog):
 
     @commands.command(name='verify')
     async def verify_create(self, ctx, channel: discord.TextChannel):
+        """
+        Create get-role message
+        :param ctx: Default param for getting the information of the caller. Nothing to do for this param
+        :param channel: mention a channel to send a get-role message
+        :return:
+        """
         if not ctx.author.guild_permissions.view_audit_log:
             return await ctx.respond("권한이 없습니다.", ephemeral=True)
 

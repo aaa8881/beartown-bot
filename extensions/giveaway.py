@@ -26,6 +26,9 @@ class Giveaway(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def lookup(self):
+        """
+        Check whether a giveaway is finished or not every 10 seconds
+        """
         await self.bot.wait_until_ready()
         conn = sqlite3.connect('data/event.db')
         cursor = conn.cursor()
@@ -64,6 +67,11 @@ class Giveaway(commands.Cog):
 
     @slash_command(name="추첨", description="추첨을 진행합니다.")
     async def giveaway(self, ctx):
+        """
+        Create a giveaway
+        :param ctx: Default param for getting the information of the caller. Nothing to do for this param
+        :return
+        """
         if not ctx.author.guild_permissions.view_audit_log:
             return await ctx.respond("권한이 없습니다.", ephemeral=True)
 
